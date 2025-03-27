@@ -1,0 +1,17 @@
+Generar una imagen docker de la aplicación 
+1) docker build -t sesion1-api .
+
+1.1) Asegúrate de que ya ejecutaste aws configure con tu Access Key, Secret Key y región (como us-east-1). Si no, hazlo
+
+Crea un repositorio para tu imagen
+2) aws ecr create-repository --repository-name sesion1-api --region us-east-1 
+NOTA: Esto devuelve una uri como esta: <tu-account-id>.dkr.ecr.us-east-1.amazonaws.com/sesion1-api (copiala porque la necesitaras en el siguiente paso)
+
+Inicia sesión en ECR para que Docker pueda subir la imagen
+3)aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <tu-account-id>.dkr.ecr.us-east-1.amazonaws.com
+
+Etiqueta tu imagen local con el URI de ECR
+4) docker tag sesion1-api:latest <tu-account-id>.dkr.ecr.us-east-1.amazonaws.com/sesion1-api:latest
+
+Sube la imagen
+5)docker push <tu-account-id>.dkr.ecr.us-east-1.amazonaws.com/sesion1-api:latest
